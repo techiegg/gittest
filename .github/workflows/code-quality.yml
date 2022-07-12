@@ -1,0 +1,44 @@
+name: Checks
+on: [pull_request]
+
+jobs:
+  mypy:
+    runs-on: ubuntu-latest
+    name: mypy
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
+    - run: 'echo "No build required" '
+    - run: pip install --upgrade pip
+    - run: pip install -r requirements.txt
+    - run: pip install mypy==v0.902
+    - run: mypy --strict $(git ls-files '*.py')
+  black:
+    runs-on: ubuntu-latest
+    name: black
+    continue-on-error: false
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+      - run: 'echo "No build required" '
+      - run: pip install --upgrade pip
+      - run: pip install -r requirements.txt
+      - run: pip install "black<23"
+      - run: black --diff --check $(git ls-files '*.py')
+  pylint:
+    runs-on: ubuntu-latest
+    name: pylint
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+      - run: 'echo "No build required" '
+      - run: pip install --upgrade pip
+      - run: pip install -r requirements.txt
+      - run: pip install pylint==v3.0.0a3
+      - run: pylint --disable=all --enable=unused-import $(git ls-files '*.py')
