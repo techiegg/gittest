@@ -17,6 +17,7 @@ jobs:
   black:
     runs-on: ubuntu-latest
     name: black
+    continue-on-error: false
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
