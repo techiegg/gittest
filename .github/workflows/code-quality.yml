@@ -13,7 +13,6 @@ jobs:
     - run: 'echo "No build required" '
     - run: pip install --upgrade pip
     - run: pip install -r requirements.txt
-    - run: pip install mypy==v0.902
     - run: mypy --strict $(git ls-files '*.py')
   black:
     runs-on: ubuntu-latest
@@ -27,7 +26,6 @@ jobs:
       - run: 'echo "No build required" '
       - run: pip install --upgrade pip
       - run: pip install -r requirements.txt
-      - run: pip install "black<23"
       - run: black --diff --check $(git ls-files '*.py')
   pylint:
     runs-on: ubuntu-latest
@@ -40,5 +38,4 @@ jobs:
       - run: 'echo "No build required" '
       - run: pip install --upgrade pip
       - run: pip install -r requirements.txt
-      - run: pip install pylint==v3.0.0a3
       - run: pylint --disable=all --enable=unused-import $(git ls-files '*.py')

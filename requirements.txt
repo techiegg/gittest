@@ -1,1 +1,4 @@
 Flask
+mypy==v0.902
+black<23
+pylint==v3.0.0a3
