@@ -10,10 +10,8 @@ jobs:
     - uses: actions/setup-python@v2
       with:
         python-version: 3.x
-    - run: 'echo "No build required" '
     - run: pip install --upgrade pip
     - run: pip install -r requirements.txt
-    - run: pip install mypy==v0.902
     - run: mypy --strict $(git ls-files '*.py')
   black:
     runs-on: ubuntu-latest
@@ -24,10 +22,8 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: 3.x
-      - run: 'echo "No build required" '
       - run: pip install --upgrade pip
       - run: pip install -r requirements.txt
-      - run: pip install "black<23"
       - run: black --diff --check $(git ls-files '*.py')
   pylint:
     runs-on: ubuntu-latest
@@ -37,8 +33,56 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: 3.x
-      - run: 'echo "No build required" '
       - run: pip install --upgrade pip
       - run: pip install -r requirements.txt
-      - run: pip install pylint==v3.0.0a3
       - run: pylint --disable=all --enable=unused-import $(git ls-files '*.py')
+
+  flake8:
+    runs-on: ubuntu-latest
+    name: flake8
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+      - run: pip install --upgrade pip
+      - run: pip install -r requirements.txt
+      - run: flake8 $(git ls-files '*.py')
+
+  isort:
+    runs-on: ubuntu-latest
+    name: isort
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+      - run: pip install --upgrade pip
+      - run: pip install -r requirements.txt
+      - run: isort $(git ls-files '*.py') -c -v
+
+  pytest:
+    runs-on: ubuntu-latest
+    name: pytest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+      - run: pip install --upgrade pip
+      - run: pip install -r requirements.txt
+      - run: coverage run -m pytest $(git ls-files 'test*.py')
+      - run: coverage report -m
+
+  coverage:
+    runs-on: ubuntu-latest
+    name: coverage
+    needs: [pytest]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+      - run: pip install --upgrade pip
+      - run: pip install -r requirements.txt
+      - run: coverage report -m
