@@ -4,3 +4,4 @@ black<23
 pylint==v3.0.0a3
 flake8
 isort[requirements_deprecated_finder,pipfile_deprecated_finder]
+pytest

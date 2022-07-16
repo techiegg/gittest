@@ -60,3 +60,15 @@ jobs:
       - run: pip install --upgrade pip
       - run: pip install -r requirements.txt
       - run: isort $(git ls-files '*.py') -c -v
+
+  pytest:
+    runs-on: ubuntu-latest
+    name: pytest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+      - run: pip install --upgrade pip
+      - run: pip install -r requirements.txt
+      - run: python3 -m pytest $(git ls-files 'test*.py')
