@@ -10,7 +10,6 @@ jobs:
     - uses: actions/setup-python@v2
       with:
         python-version: 3.x
-    - run: 'echo "No build required" '
     - run: pip install --upgrade pip
     - run: pip install -r requirements.txt
     - run: mypy --strict $(git ls-files '*.py')
@@ -23,7 +22,6 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: 3.x
-      - run: 'echo "No build required" '
       - run: pip install --upgrade pip
       - run: pip install -r requirements.txt
       - run: black --diff --check $(git ls-files '*.py')
@@ -35,7 +33,18 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: 3.x
-      - run: 'echo "No build required" '
       - run: pip install --upgrade pip
       - run: pip install -r requirements.txt
       - run: pylint --disable=all --enable=unused-import $(git ls-files '*.py')
+
+  flake8:
+    runs-on: ubuntu-latest
+    name: flake8
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+      - run: pip install --upgrade pip
+      - run: pip install -r requirements.txt
+      - run: flake8 $(git ls-files '*.py')
