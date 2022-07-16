@@ -72,10 +72,11 @@ jobs:
       - run: pip install --upgrade pip
       - run: pip install -r requirements.txt
       - run: coverage run -m pytest $(git ls-files 'test*.py')
+      - run: coverage report -m
 
   coverage:
     runs-on: ubuntu-latest
-    name: pytest
+    name: coverage
     needs: [pytest]
     steps:
       - uses: actions/checkout@v2
