@@ -1,7 +1,7 @@
 import main
 
 
-def test_home_page():
+def test_home_page() -> None:
     """
     GIVEN a Flask application configured for testing
     WHEN the '/' page is requested (GET)
@@ -11,6 +11,6 @@ def test_home_page():
 
     # Create a test client using the Flask application configured for testing
     with flask_app.test_client() as test_client:
-        response = test_client.get('/')
+        response = test_client.get("/")
         assert response.status_code == 200
         assert b"Hello World" in response.data
